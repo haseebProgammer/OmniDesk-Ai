@@ -1,0 +1,149 @@
+@import "tailwindcss";
+
+@theme {
+  --color-background: #020812;
+  --color-surface: #0D1F35;
+  --color-accent-blue: #0A8FD4;
+  --color-accent-glow: #0A8FD4;
+  --color-accent-highlight: #38BDF8;
+  --color-text-white: #F0F8FF;
+  --color-text-gray: #A0AEC0;
+
+  --font-heading: "Space Grotesk", sans-serif;
+  --font-body: "Inter", sans-serif;
+
+  --animate-pulse-slow: pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+:root {
+  color-scheme: dark;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #020812;
+  font-family: 'Inter', sans-serif;
+  cursor: none;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Space Grotesk', sans-serif;
+}
+
+/* Custom Cursor */
+#custom-cursor {
+  position: fixed;
+  width: 20px;
+  height: 20px;
+  background: #0A8FD4;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 10000;
+  top: 0;
+  left: 0;
+  transition: transform 0.1s ease-out;
+  mix-blend-mode: screen;
+  box-shadow: 0 0 20px #0A8FD4, 0 0 40px #0A8FD4;
+}
+
+#custom-cursor-halo {
+  position: fixed;
+  width: 40px;
+  height: 40px;
+  border: 1px solid rgba(10, 143, 212, 0.3);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9999;
+  transition: transform 0.2s ease-out;
+}
+
+/* Noise Texture Overlay */
+.noise-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 9998;
+  opacity: 0.03;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+}
+
+/* Grid Overlay */
+.grid-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: -1;
+  opacity: 0.06;
+  background-image: linear-gradient(rgba(10, 143, 212, 0.3) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(10, 143, 212, 0.3) 1px, transparent 1px);
+  background-size: 50px 50px;
+}
+
+/* Glassmorphism Utilities */
+.glass {
+  background: rgba(13, 31, 53, 0.6);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(10, 143, 212, 0.1);
+}
+
+.glass-glow {
+  box-shadow: 0 0 20px rgba(10, 143, 212, 0.1);
+}
+
+/* Animated Gradient Text */
+.text-gradient {
+  background: linear-gradient(90deg, #0A8FD4, #38BDF8, #F0F8FF);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  background-size: 200% auto;
+  animation: gradient 5s linear infinite;
+}
+
+@keyframes gradient {
+  0% { background-position: 0% 50%; }
+  100% { background-position: 200% 50%; }
+}
+
+/* Hide scrollbar but allow scrolling */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Button Utilities */
+.btn {
+  @apply inline-flex items-center justify-center rounded-full font-bold transition-all duration-300 active:scale-95;
+}
+
+.btn-primary {
+  @apply inline-flex items-center justify-center rounded-full font-bold transition-all duration-300 active:scale-95;
+  background-color: var(--color-accent-blue);
+  color: white;
+  box-shadow: 0 0 20px rgba(10, 143, 212, 0.3);
+}
+
+.btn-primary:hover {
+  box-shadow: 0 0 35px rgba(10, 143, 212, 0.6);
+  transform: scale(1.05);
+}
+
+.btn-outline {
+  @apply inline-flex items-center justify-center rounded-full font-bold transition-all duration-300 active:scale-95;
+  border: 1px solid rgba(10, 143, 212, 0.3);
+}
+
+.btn-outline:hover {
+  background-color: rgba(10, 143, 212, 0.05);
+}
