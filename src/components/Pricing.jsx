@@ -7,14 +7,14 @@ const plans = [
     name: "Essential",
     price: "300",
     desc: "Perfect for single locations",
-    features: ["Up to 400 calls/mo", "1 Location", "24/7 Call Answering", "Appointment Booking", "SMS Reminders"],
+    features: ["Up to 400 calls/month", "1 Location", "24/7 Call Answering", "Appointment Booking", "SMS Reminders"],
     popular: false
   },
   {
     name: "Professional",
     price: "400",
     desc: "For busy, growing practices",
-    features: ["Up to 1,500 calls/mo", "3 Locations", "Everything in Essential", "Web Chat Widget", "CRM Integration", "Priority Support"],
+    features: ["Up to 1,500 calls/month", "3 Locations", "Everything in Essential", "Web Chat Widget", "CRM Integration", "Priority Support"],
     popular: true
   },
   {
@@ -64,7 +64,7 @@ export default function Pricing() {
               <div className="flex items-baseline gap-1 mb-10">
                 <span className="text-5xl font-black font-heading">{plan.price === 'Custom' ? '' : '$'}</span>
                 <span className="text-6xl font-black font-heading">{plan.price}</span>
-                {plan.price !== 'Custom' && <span className="text-text-gray font-medium">/mo</span>}
+                {plan.price !== 'Custom' && <span className="text-text-gray font-medium">/month</span>}
               </div>
 
               <ul className="space-y-4 mb-12 flex-1">
