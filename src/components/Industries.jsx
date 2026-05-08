@@ -30,17 +30,26 @@ const industries = [
 ]
 
 function IndustryCard({ industry, i }) {
+  const [isFlipped, setIsFlipped] = React.useState(false)
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 30 }}
       whileInView={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6, delay: i * 0.1 }}
-      className="relative h-[400px] w-full group [perspective:1000px]"
+      className="relative h-[400px] w-full [perspective:1000px] cursor-pointer"
+      onClick={() => setIsFlipped(!isFlipped)}
+      onMouseEnter={() => setIsFlipped(true)}
+      onMouseLeave={() => setIsFlipped(false)}
     >
-      <div className="relative h-full w-full transition-all duration-700 [transform-style:preserve-3d] group-hover:[transform:rotateY(180deg)]">
+      <motion.div 
+        className="relative h-full w-full transition-all duration-700 [transform-style:preserve-3d]"
+        animate={{ rotateY: isFlipped ? 180 : 0 }}
+        transition={{ type: "spring", stiffness: 260, damping: 20 }}
+      >
         {/* Front */}
         <div className="absolute inset-0 h-full w-full rounded-3xl overflow-hidden glass flex flex-col items-center justify-center text-center [backface-visibility:hidden]">
-          <div className="absolute inset-0 z-0 opacity-20 group-hover:opacity-40 transition-opacity duration-500">
+          <div className="absolute inset-0 z-0 opacity-20 transition-opacity duration-500">
             <img src={industry.image} alt="" className="w-full h-full object-cover grayscale" />
             <div className="absolute inset-0 bg-background/60" />
           </div>
@@ -50,7 +59,10 @@ function IndustryCard({ industry, i }) {
               <industry.icon size={40} />
             </div>
             <h3 className="text-3xl font-black font-heading">{industry.name}</h3>
-            <p className="mt-4 text-xs font-bold text-accent-blue uppercase tracking-widest bg-accent-blue/10 px-4 py-1 rounded-full inline-block">Hover to explore</p>
+            <p className="mt-4 text-[10px] font-bold text-accent-blue uppercase tracking-widest bg-accent-blue/10 px-4 py-1 rounded-full inline-block">
+              <span className="hidden md:inline">Hover</span>
+              <span className="md:hidden">Tap</span> to explore
+            </p>
           </div>
         </div>
 
@@ -66,10 +78,11 @@ function IndustryCard({ industry, i }) {
             ))}
           </ul>
         </div>
-      </div>
+      </motion.div>
     </motion.div>
   )
 }
+
 
 export default function Industries() {
   return (
