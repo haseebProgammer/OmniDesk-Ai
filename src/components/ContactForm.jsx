@@ -1,13 +1,34 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { motion } from 'framer-motion'
-import { Send, MapPin, Mail, Phone } from 'lucide-react'
+import { Send, MapPin, Mail, Phone, Loader2 } from 'lucide-react'
 
 export default function ContactForm() {
-  const [submitted, setSubmitted] = React.useState(false)
+  const [submitted, setSubmitted] = useState(false)
+  const [loading, setLoading] = useState(false)
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
-    setSubmitted(true)
+    setLoading(true)
+
+    const formData = new FormData(e.target)
+    
+    try {
+      const response = await fetch("https://formsubmit.co/ajax/omnideskai3@gmail.com", {
+        method: "POST",
+        body: formData
+      })
+      
+      if (response.ok) {
+        setSubmitted(true)
+      } else {
+        alert("Something went wrong. Please try again.")
+      }
+    } catch (error) {
+      console.error("Error:", error)
+      alert("Failed to send message. Please check your connection.")
+    } finally {
+      setLoading(false)
+    }
   }
 
   if (submitted) {
@@ -21,7 +42,7 @@ export default function ContactForm() {
           <Send size={40} />
         </div>
         <h3 className="text-4xl font-black font-heading mb-4">Message Sent!</h3>
-        <p className="text-text-gray text-lg">Thank you for reaching out. Our team will contact you within 24 hours.</p>
+        <p className="text-text-gray text-lg">Thank you for reaching out. We have received your inquiry at <strong>omnideskai3@gmail.com</strong> and will contact you within 24 hours.</p>
         <button onClick={() => setSubmitted(false)} className="mt-8 text-accent-blue font-bold hover:underline">Send another message</button>
       </motion.div>
     )
@@ -69,29 +90,41 @@ export default function ContactForm() {
           className="glass p-10 rounded-[40px] border border-white/5 shadow-2xl"
         >
           <form className="space-y-6" onSubmit={handleSubmit}>
+            {/* Hidden fields for FormSubmit */}
+            <input type="hidden" name="_subject" value="New Lead from OmniDesk AI Website" />
+            <input type="hidden" name="_template" value="table" />
+            
             <div className="grid md:grid-cols-2 gap-6">
               <div className="space-y-2">
                 <label className="text-sm font-bold text-text-gray ml-2">Full Name</label>
-                <input type="text" placeholder="John Doe" className="w-full bg-surface/50 border border-white/10 rounded-2xl px-6 py-4 focus:border-accent-blue outline-none transition-all" />
+                <input name="name" type="text" required placeholder="John Doe" className="w-full bg-surface/50 border border-white/10 rounded-2xl px-6 py-4 focus:border-accent-blue outline-none transition-all" />
               </div>
               <div className="space-y-2">
                 <label className="text-sm font-bold text-text-gray ml-2">Business Name</label>
-                <input type="text" placeholder="Omni Clinic" className="w-full bg-surface/50 border border-white/10 rounded-2xl px-6 py-4 focus:border-accent-blue outline-none transition-all" />
+                <input name="business" type="text" required placeholder="Omni Clinic" className="w-full bg-surface/50 border border-white/10 rounded-2xl px-6 py-4 focus:border-accent-blue outline-none transition-all" />
               </div>
             </div>
             
             <div className="space-y-2">
               <label className="text-sm font-bold text-text-gray ml-2">Email Address</label>
-              <input type="email" placeholder="john@example.com" className="w-full bg-surface/50 border border-white/10 rounded-2xl px-6 py-4 focus:border-accent-blue outline-none transition-all" />
+              <input name="email" type="email" required placeholder="john@example.com" className="w-full bg-surface/50 border border-white/10 rounded-2xl px-6 py-4 focus:border-accent-blue outline-none transition-all" />
             </div>
 
             <div className="space-y-2">
               <label className="text-sm font-bold text-text-gray ml-2">Message</label>
-              <textarea rows="4" placeholder="How can we help you?" className="w-full bg-surface/50 border border-white/10 rounded-2xl px-6 py-4 focus:border-accent-blue outline-none transition-all resize-none"></textarea>
+              <textarea name="message" rows="4" required placeholder="How can we help you?" className="w-full bg-surface/50 border border-white/10 rounded-2xl px-6 py-4 focus:border-accent-blue outline-none transition-all resize-none"></textarea>
             </div>
 
-            <button type="submit" className="btn btn-primary w-full py-5 text-lg flex items-center justify-center gap-3">
-              Send Message <Send size={20} />
+            <button 
+              type="submit" 
+              disabled={loading}
+              className="btn btn-primary w-full py-5 text-lg flex items-center justify-center gap-3 disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              {loading ? (
+                <>Sending... <Loader2 size={20} className="animate-spin" /></>
+              ) : (
+                <>Send Message <Send size={20} /></>
+              )}
             </button>
           </form>
         </motion.div>
@@ -99,3 +132,4 @@ export default function ContactForm() {
     </section>
   )
 }
+
