@@ -38,9 +38,9 @@ function IndustryCard({ industry, i }) {
       whileInView={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6, delay: i * 0.1 }}
       className="relative h-[400px] w-full [perspective:1000px] cursor-pointer"
-      onClick={() => setIsFlipped(!isFlipped)}
-      onMouseEnter={() => setIsFlipped(true)}
-      onMouseLeave={() => setIsFlipped(false)}
+      onTap={() => setIsFlipped(!isFlipped)}
+      onMouseEnter={() => window.innerWidth > 768 && setIsFlipped(true)}
+      onMouseLeave={() => window.innerWidth > 768 && setIsFlipped(false)}
     >
       <motion.div 
         className="relative h-full w-full transition-all duration-700 [transform-style:preserve-3d]"
